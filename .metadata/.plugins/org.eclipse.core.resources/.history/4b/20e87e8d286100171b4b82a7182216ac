@@ -1,0 +1,34 @@
+package com.kaishengit.mybatis;
+
+
+import org.apache.ibatis.session.SqlSession;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.kaishengit.entity.User;
+import com.kaishengit.mapper.UserMapper;
+import com.kaishengit.util.MyBatisUtil;
+
+public class UserMapperTest {
+	
+	private Logger logger = LoggerFactory.getLogger(UserMapperTest.class);
+	
+	private SqlSession sqlSession;
+	private UserMapper userMapper;
+	@Test
+	public void before() {
+		sqlSession = MyBatisUtil.getSqlSession();
+		//!!! MyBatis根据定义的Mapper接口动态的生成该接口的实现类
+		userMapper = sqlSession.getMapper(UserMapper.class);
+	}
+	@Test
+	public void after() {
+		sqlSession.close();
+	}
+	
+	public void findById() {
+		User user = userMapper.findById(1);
+		logger.debug("user: {}" ,user);
+	}
+}

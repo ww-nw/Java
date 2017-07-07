@@ -1,0 +1,5 @@
+package com.kaishengit.mybatis;
+
+public class UserMapperTest {
+
+}
