@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+        <!--
+        id : spring容器中bean的名称，整个容器唯一
+        class: 被管理的bean的完全限定名称 -->
+
+    <bean id="userService" class="com.kaishengit.service.UserService" autowire="constructor"/>
+
+    <!--<bean id="userService" class="com.kaishengit.service.UserService" autowire="byType"/>-->
+
+    <!--<bean id="userService" class="com.kaishengit.service.UserService" autowire="byName"/>-->
+
+        <!--<bean id="userService" class="com.kaishengit.service.UserService"
+              p:userDao-ref="UserDao" p:weiXinDao="weiXinDao"/>-->
+
+
+      <!--  <bean id="userService" class="com.kaishengit.service.UserService">
+            <constructor-arg index="0" ref="UserDao"/>
+            <constructor-arg index="1" ref="weiXinDao"/>
+        </bean>-->
+       <!-- <bean id="userService" class="com.kaishengit.service.UserService">
+            <constructor-arg name="userDao" ref="UserDao"/>
+            <constructor-arg name="weiXinDao" ref="weiXinDao"/>
+        </bean>-->
+       <!-- <bean id="userService" class="com.kaishengit.service.UserService">
+            <constructor-arg type="com.kaishengit.dao.UserDao" ref="UserDao"/>
+            <constructor-arg type="com.kaishengit.service.UserService" ref="weiXinDao"/>
+        </bean>-->
+        <bean id="UserDao" class="com.kaishengit.dao.UserDao"/>
+        <bean id="weiXinDao" class="com.kaishengit.dao.WeiXinDao"/>
+        <bean id="diDemo" class="com.kaishengit.service.DiDemo">
+                <property name="name" value="tom"/>
+                <property name="score" value="39.9"/>
+                <property name="nameList">
+                    <list>
+                        <value>aa</value>
+                        <value>bb</value>
+                        <value>cc</value>
+                    </list>
+                </property>
+                <property name="mySet">
+                    <set>
+                        <value>xx</value>
+                        <value>yy</value>
+                        <value>zz</value>
+                    </set>
+                </property>
+                <property name="userMap">
+                    <map>
+                        <entry key="my" value-ref="UserDao"/>
+                    </map>
+                </property>
+                <property name="config">
+                    <props>
+                        <prop key="1">a</prop>
+                        <prop key="2">b</prop>
+                    </props>
+                </property>
+        </bean>
+
+
+
+
+        <!--<bean id="userDao" class="com.kaishengit.dao.UserDao" lazy-init="true" init-method="init" destroy-method="destroy"/>-->
+
+        <!--单例-->
+         <!--<bean id="userDao" class="com.kaishengit.dao.UserDao" scope="singleton"/>-->
+        <!--类有状态-->
+        <!--<bean id="userDao" class="com.kaishengit.dao.UserDao" scope="prototype"/>-->
+        <!--<bean name="userDao,userDao2" class="com.kaishengit.dao.UserDao"/>-->
+        <!--<bean class="com.kaishengit.dao.UserDao"/>-->
+        <!--<bean class="com.kaishengit.dao.UserDao"/>-->
+        <!--<bean class="com.kaishengit.dao.UserDao"/>-->
+</beans>
