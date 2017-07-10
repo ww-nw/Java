@@ -13,4 +13,10 @@
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.annotations.Select"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.annotations.Options"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.annotations.Insert"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.annotations.Options.FlushCachePolicy"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.annotations.Update"/>
+<fullyQualifiedTypeName name="org.apache.ibatis.annotations.Delete"/>
 </qualifiedTypeNameHistroy>
