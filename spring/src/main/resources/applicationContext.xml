@@ -1,37 +1,74 @@
+<!--
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+      &lt;!&ndash; 开启自动扫描 : 会自动扫描com.kaishengit包及其
+      子包中的加有特殊注解的类，并将这些类放入的Spring容器中&ndash;&gt;
+      <context:component-scan base-package="com.kaishengit"/>
+      &lt;!&ndash; 开启基于注解的AOP配置 &ndash;&gt;
+      <aop:aspectj-autoproxy/>
 
-        <!--
+
+        &lt;!&ndash;
         id : spring容器中bean的名称，整个容器唯一
-        class: 被管理的bean的完全限定名称 -->
+        class: 被管理的bean的完全限定名称 &ndash;&gt;
+  &lt;!&ndash;  <bean id="UserDao" class="com.kaishengit.dao.UserDao"/>
+    <bean id="weiXinDao" class="com.kaishengit.dao.WeiXinDao"/>
+    <bean id="diDemo" class="com.kaishengit.service.DiDemo"/>
 
     <bean id="userService" class="com.kaishengit.service.UserService" autowire="constructor"/>
 
-    <!--<bean id="userService" class="com.kaishengit.service.UserService" autowire="byType"/>-->
+    &lt;!&ndash;AOP通知类&ndash;&gt;
+    <bean id="aspectAdvice" class="com.kaishengit.aspect.AspectAdvice"/>
+    &lt;!&ndash; AOP配置 &ndash;&gt;
+    <aop:config>
+        &lt;!&ndash; 告诉Spring通知类是哪一个 &ndash;&gt;
+        <aop:aspect ref="aspectAdvice">
+            &lt;!&ndash; 切入点表达式：声明目标对象 &ndash;&gt;
+            <aop:pointcut id="myPointCut" expression="execution(* com.kaishengit.service..*.*(..))"/>
+            &lt;!&ndash; 声明通知 &ndash;&gt;
 
-    <!--<bean id="userService" class="com.kaishengit.service.UserService" autowire="byName"/>-->
+            &lt;!&ndash; 前置通知 &ndash;&gt;
+          &lt;!&ndash;  <aop:before method="beforeAdvice" pointcut-ref="myPointCut"/>
+            &lt;!&ndash;后置通知&ndash;&gt;
+            <aop:after-returning method="afterReturningAdvice" pointcut-ref="myPointCut" returning="result"/>
+            &lt;!&ndash;异常通知&ndash;&gt;
+            <aop:after-throwing method="afterThrowingAdvice" pointcut-ref="myPointCut" throwing="e"/>
+            &lt;!&ndash;最后通知&ndash;&gt;
+            <aop:after method="afterAdvice" pointcut-ref="myPointCut"/>&ndash;&gt;
+            &lt;!&ndash;环绕通知&ndash;&gt;
+            <aop:around method="aroundAdvice" pointcut-ref="myPointCut"/>
+        </aop:aspect>
+    </aop:config>
 
-        <!--<bean id="userService" class="com.kaishengit.service.UserService"
-              p:userDao-ref="UserDao" p:weiXinDao="weiXinDao"/>-->
+
+    &lt;!&ndash;<bean id="userService" class="com.kaishengit.service.UserService" autowire="byType"/>&ndash;&gt;
+
+    &lt;!&ndash;<bean id="userService" class="com.kaishengit.service.UserService" autowire="byName"/>&ndash;&gt;
+
+        &lt;!&ndash;<bean id="userService" class="com.kaishengit.service.UserService"
+              p:userDao-ref="UserDao" p:weiXinDao="weiXinDao"/>&ndash;&gt;
 
 
-      <!--  <bean id="userService" class="com.kaishengit.service.UserService">
+      &lt;!&ndash;  <bean id="userService" class="com.kaishengit.service.UserService">
             <constructor-arg index="0" ref="UserDao"/>
             <constructor-arg index="1" ref="weiXinDao"/>
-        </bean>-->
-       <!-- <bean id="userService" class="com.kaishengit.service.UserService">
+        </bean>&ndash;&gt;
+       &lt;!&ndash; <bean id="userService" class="com.kaishengit.service.UserService">
             <constructor-arg name="userDao" ref="UserDao"/>
             <constructor-arg name="weiXinDao" ref="weiXinDao"/>
-        </bean>-->
-       <!-- <bean id="userService" class="com.kaishengit.service.UserService">
+        </bean>&ndash;&gt;
+       &lt;!&ndash; <bean id="userService" class="com.kaishengit.service.UserService">
             <constructor-arg type="com.kaishengit.dao.UserDao" ref="UserDao"/>
             <constructor-arg type="com.kaishengit.service.UserService" ref="weiXinDao"/>
-        </bean>-->
-        <bean id="UserDao" class="com.kaishengit.dao.UserDao"/>
+        </bean>&ndash;&gt;
+      &lt;!&ndash;  <bean id="UserDao" class="com.kaishengit.dao.UserDao"/>
         <bean id="weiXinDao" class="com.kaishengit.dao.WeiXinDao"/>
         <bean id="diDemo" class="com.kaishengit.service.DiDemo">
                 <property name="name" value="tom"/>
@@ -62,18 +99,18 @@
                     </props>
                 </property>
         </bean>
+&ndash;&gt;
 
 
 
+        &lt;!&ndash;<bean id="userDao" class="com.kaishengit.dao.UserDao" lazy-init="true" init-method="init" destroy-method="destroy"/>&ndash;&gt;
 
-        <!--<bean id="userDao" class="com.kaishengit.dao.UserDao" lazy-init="true" init-method="init" destroy-method="destroy"/>-->
-
-        <!--单例-->
-         <!--<bean id="userDao" class="com.kaishengit.dao.UserDao" scope="singleton"/>-->
-        <!--类有状态-->
-        <!--<bean id="userDao" class="com.kaishengit.dao.UserDao" scope="prototype"/>-->
-        <!--<bean name="userDao,userDao2" class="com.kaishengit.dao.UserDao"/>-->
-        <!--<bean class="com.kaishengit.dao.UserDao"/>-->
-        <!--<bean class="com.kaishengit.dao.UserDao"/>-->
-        <!--<bean class="com.kaishengit.dao.UserDao"/>-->
-</beans>
+        &lt;!&ndash;单例&ndash;&gt;
+         &lt;!&ndash;<bean id="userDao" class="com.kaishengit.dao.UserDao" scope="singleton"/>&ndash;&gt;
+        &lt;!&ndash;类有状态&ndash;&gt;
+        &lt;!&ndash;<bean id="userDao" class="com.kaishengit.dao.UserDao" scope="prototype"/>&ndash;&gt;
+        &lt;!&ndash;<bean name="userDao,userDao2" class="com.kaishengit.dao.UserDao"/>&ndash;&gt;
+        &lt;!&ndash;<bean class="com.kaishengit.dao.UserDao"/>&ndash;&gt;
+        &lt;!&ndash;<bean class="com.kaishengit.dao.UserDao"/>&ndash;&gt;
+        &lt;!&ndash;<bean class="com.kaishengit.dao.UserDao"/>&ndash;&gt;&ndash;&gt;
+</beans>-->
