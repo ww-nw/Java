@@ -16,7 +16,7 @@ public class Test {
         enhancer.setCallback(new MyMethodInterceptor());
         //创建代理类(目标对象的子类)(通过父类执指向子类的形式获取目标对象的代理对象)
         Mouse mouse = (Mouse) enhancer.create();
-        //父类指向之类调用方法
+        //父类指向子类调用方法
         mouse.move();
     }
 }
